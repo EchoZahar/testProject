@@ -174,6 +174,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // @role blade
+        App\Providers\RolesServiceProvider::class,
+        // Проверка разрешении пользователя
+        App\Providers\PermissionServiceProvider::class,
 
     ],
 
