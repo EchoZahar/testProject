@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
+// только администратор
+Route::middleware(['auth','role:administrator'])->namespace('App\Http\Controllers\Admin')->group(function() {
+    Route::get('/administrator', 'DashboardController@staticData')->name('administrator');
+    Route::resource('/administrator/role', 'RoleController')->names('administrator.role');
+});
+// административные пользователи (admin панели)
+Route::middleware(['auth','role:administrator','role:web-developer','role:project-manager'])->namespace('App\Http\Controllers\Admin')->group(function() {
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+// только авторизирование пользователи
+Route::group(['middleware' => ['auth'],['administrator']], function() {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+

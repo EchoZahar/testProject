@@ -15,3 +15,6 @@ Route::group(['middleware' => 'role:web-developer'], function() {
         return 'Добро пожаловать, Веб-разработчик';
     });
 });
+
+// использование MetaTag документация.
+https://github.com/fomvasss/laravel-meta-tags
