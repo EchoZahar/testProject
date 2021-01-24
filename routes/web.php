@@ -21,18 +21,14 @@ Route::get('/', function () {
 
 
 Auth::routes();
-// только администратор
-Route::middleware(['auth','role:administrator'])->namespace('App\Http\Controllers\Admin')->group(function() {
-    Route::get('/administrator', 'DashboardController@staticData')->name('administrator');
-    Route::resource('/administrator/role', 'RoleController')->names('administrator.role');
-});
-// административные пользователи (admin панели)
-Route::middleware(['auth','role:administrator','role:web-developer','role:project-manager'])->namespace('App\Http\Controllers\Admin')->group(function() {
-
-});
-// только авторизирование пользователи
-Route::group(['middleware' => ['auth'],['administrator']], function() {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// авторизированные пользователи
+Route::group(['namespace'=>'App\Http\Controllers'], function() {
+    Route::get('/home', 'HomeController@index')->name('home');
 });
 
-
+// администратор
+Route::group(['prefix'=>'a','namespace'=>'App\Http\Controllers\Admin',], function() {
+    Route::get('/', 'DashboardController@staticData')->name('a');
+    Route::resource('/role', 'RoleController')->names('a.role');
+    Route::resource('/permission', 'PermissionController')->names('a.permission');
+});
