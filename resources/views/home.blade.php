@@ -13,9 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}<br>
-                        <a href="{{route('administrator')}}">adminka</a>
+                    @dump(auth()->user()->roles)
+                    @dump(auth()->user()->permissions)
+                    <br>
+                    @role('administrator')<a href="{{route('administrator')}}">{{ __('You are logged in! administrator') }}</a>@endrole
+                    @role('web-developer') <a href="{{route('administrator')}}">{{ __('You are logged in! developer') }}</a> @endrole
                 </div>
             </div>
         </div>
