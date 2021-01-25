@@ -13,4 +13,15 @@ class Category extends Model
     protected $fillable = [
         'name','slug','parentId','published','createdBy','modifiedBy','deleted_at'
     ];
+
+    // получение родительской категории (category main)
+    public function children() {
+        return $this->hasMany(self::class, 'parentId');
+    }
+
+    // полиморфные отношения с статьями (Article)
+    public function articles()
+    {
+        return $this->morphedByMany('App\Models\Article', 'categoryable');
+    }
 }

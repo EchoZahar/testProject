@@ -6,7 +6,6 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-
 class CategoryObserver
 {
     /**
@@ -29,6 +28,14 @@ class CategoryObserver
         //
     }
 
+    public function updating(Category $category)
+    {
+        $this->modifiedBy($category);
+        if($category->isDirty('name')) {
+            $category->slug = Str::slug('name', '-');
+        }
+    }
+
     /**
      * Handle the Category "updated" event.
      *
@@ -37,7 +44,7 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        //
+
     }
 
     /**
@@ -73,12 +80,20 @@ class CategoryObserver
         //
     }
 
-    public function setSlug(Category  $category)
+    public function setSlug(Category $category)
     {
         $category->slug = Str::slug($category->name,'-');
     }
     public function createdBy(Category $category)
     {
         $category->createdBy = Auth::user()->id;
+    }
+    public function modifiedBy(Category $category)
+    {
+        $category->modifiedBy = Auth::user()->name.', id: '.Auth()->user()->id;
+    }
+    public function published(Category $category)
+    {
+
     }
 }
