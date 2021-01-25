@@ -15,18 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::select('id','name','parentId','published')->get();
-        return view('admin.category.index', compact('category'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = Category::all();
+        $delimiter = '-';
+        return view('admin.category.index', compact('categories','delimiter'));
     }
 
     /**
@@ -38,29 +29,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->input();
-        dd(__METHOD__, $data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        dd(__METHOD__,$category);
+        $category = Category::create($data);
+        if($category): return back()->with(['msg'=>'Категория успешно добавлена !']);
+        else: return back()->withErrors(['Что то пошло не так, смотри ошибки']); endif;
     }
 
     /**
@@ -72,8 +43,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $data = $request->input();
-        dd(__METHOD__,$category,$data);
+        $data = $request->all();
+        if($request->has('published')): $data['published'] = 1; else: $data['published'] = 0; endif;
+        $update = $category->update($data);
+        if($update): return back()->with(['success'=>'Категория "'. $category->name .'" успешно обновлена !']);
+        else: return back()->withErrors(['msg' => 'Что то пошло не так, обновите страницу и попробуйте снова !']);
+        endif;
     }
 
     /**
@@ -84,6 +59,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        dd(__METHOD__, $category);
+        if(!$category): return redirect()->back()->withErrors(['msg'=>'id не найдено !']);endif;
+        $delete = $category->delete();
+        if($delete): return back()->with(['success'=>'Категория "'.$category->name.'", удалена успешно !']);
+        else: return back()->withErrors(['msg'=>'Что то пошло не так, обновите страницу и поробуйте снова !']); endif;
     }
 }
