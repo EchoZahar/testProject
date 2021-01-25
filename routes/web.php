@@ -31,4 +31,6 @@ Route::group(['prefix'=>'a','namespace'=>'App\Http\Controllers\Admin',], functio
     Route::get('/', 'DashboardController@staticData')->name('a');
     Route::resource('/role', 'RoleController')->names('a.role');
     Route::resource('/permission', 'PermissionController')->names('a.permission');
+    Route::resource('/category','CategoryController')->names('a.category');
+    Route::resource('/article','ArticleController')->names('a.article');
 });
