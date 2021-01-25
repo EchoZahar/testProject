@@ -53,10 +53,14 @@
                     @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('a.category.index') }}">категории</a>
+                            <a class="nav-link" href="{{ route('a.category.index') }}">категорий</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('a.category.index') }}">статьй</a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>статьй</a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('a.article.index') }}">статьй главная</a>
+                                <a class="dropdown-item" href="{{ route('a.article.create') }}">добавить стаью</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

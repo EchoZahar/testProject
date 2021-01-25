@@ -7,14 +7,25 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('a.category.store') }}" method="post">
+            <form class="needs-validation" action="{{ route('a.category.store') }}" method="post" novalidate>
             @csrf
             <div class="modal-body">
-                данные формы
+                <div class="mb-3">
+                    <label class="text-primary" for="createName">название категории</label>
+                    <input type="text" class="form-control" id="createName" placeholder="введите наименование категории" value="{{old('name')}}"  required>
+                    <input type="hidden" name="slug"> <input type="hidden" name="createdBy" value="{{Auth()->user()->id}}">
+                </div>
+                <div class="mb-3">
+                    <label class="text-primary" for="createName">наименование категорий</label>
+                    <select class="custom-select" required>
+                        <option value="">выбрать...</option>
+                        <option value="0">главная категория</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">закрыть</button>
-                <button type="submit" class="btn btn-primary">сохранить</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">отменить</button>
+                <button type="submit" class="btn btn-outline-success">сохранить</button>
             </div>
             </form>
         </div>

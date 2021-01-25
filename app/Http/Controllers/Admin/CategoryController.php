@@ -15,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category.index');
+        $category = Category::select('id','name','parentId','published')->get();
+        return view('admin.category.index', compact('category'));
     }
 
     /**
@@ -36,7 +37,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->input();
+        dd(__METHOD__, $data);
     }
 
     /**
@@ -58,7 +60,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        dd(__METHOD__,$category);
     }
 
     /**
@@ -70,7 +72,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->input();
+        dd(__METHOD__,$category,$data);
     }
 
     /**
@@ -81,6 +84,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        dd(__METHOD__, $category);
     }
 }
